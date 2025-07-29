@@ -1,8 +1,6 @@
 import streamlit as st
 from gpt_analysis import *
 import matplotlib.pyplot as plt
-
-
 import concurrent.futures
 
 st.set_page_config(page_title="AI Idea Validator")
@@ -25,7 +23,8 @@ if st.button("Validate Idea"):
             "monetization": executor.submit(get_monetization, idea),
             "improvements": executor.submit(get_improvements, idea),
             "personas": executor.submit(get_customer_personas,idea),
-            "validation_scores": executor.submit(get_validation_scores, idea)
+            "validation_scores": executor.submit(get_validation_scores, idea),
+            "pitch": executor.submit(get_pitch, idea)
         }
                 results = {k: f.result() for k, f in futures.items()}
 
@@ -35,6 +34,7 @@ if st.button("Validate Idea"):
         monetization = results["monetization"]
         improvements = results["improvements"]
         validation_scores = results["validation_scores"]
+        pitch = results["pitch"]
         sections = list(validation_scores.keys())
         scores = list(validation_scores.values())
 
@@ -64,6 +64,9 @@ if st.button("Validate Idea"):
         else:
             st.markdown(personas)
 
+
+        st.markdown("### 🧠 Auto-Pitch")
+        st.write(pitch)
 
         st.subheader(" Visual Summary")
 

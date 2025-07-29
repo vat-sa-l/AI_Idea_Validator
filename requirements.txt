@@ -2,3 +2,4 @@ streamlit
 matplotlib
 google.generativeai
 python-dotenv
+requests
